@@ -77,21 +77,22 @@ body {
 			List<FileItem> fileItems = upload.parseRequest(request);
 
 			// Process the uploaded file items
-			String fileName = null;
-			String filePath = null;
+			String fileName = "";
+			String filePath = "";
 
+			// Check if file item is not empty and process file upload
 			for (FileItem fileItem : fileItems) {
-		if (!fileItem.isFormField()) {
-			// Get the uploaded file parameters
-			String fieldName = fileItem.getFieldName();
-			fileName = fileItem.getName();
-			filePath = uploadPath + "/" + fileName;
-			boolean isInMemory = fileItem.isInMemory();
-			long sizeInBytes = fileItem.getSize();
+				if (!fileItem.isFormField() && fileItem.getSize() > 0) {
+					// Get the uploaded file parameters
+					String fieldName = fileItem.getFieldName();
+					fileName = fileItem.getName();
+					filePath = uploadPath + "/" + fileName;
+					boolean isInMemory = fileItem.isInMemory();
+					long sizeInBytes = fileItem.getSize();
 
-			// Write the file to the specified path
-			fileItem.write(new File(filePath));
-		}
+					// Write the file to the specified path
+					fileItem.write(new File(filePath));
+				}
 			}
 
 			// Save the file information to the database
@@ -101,34 +102,28 @@ body {
 			String sql = "INSERT INTO board (title, writer, content, file_name, file_path) VALUES (?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
-			String title = null;
-			String writer = null;
-			String content = null;
+			String title = "";
+			String writer = "";
+			String content = "";
 
 			for (FileItem fileItem : fileItems) {
-		if (fileItem.isFormField()) {
-			String fieldName = fileItem.getFieldName();
-			String fieldValue = fileItem.getString("UTF-8");
-			if (fieldName.equals("title")) {
-				if (fieldValue == null || fieldValue.isEmpty()) {
-					title = "Untitled";
-				} else {
-					title = fieldValue;
+				if (fileItem.isFormField()) {
+					String fieldName = fileItem.getFieldName();
+					String fieldValue = fileItem.getString("UTF-8");
+					if (fieldName.equals("title")) {
+						if (fieldValue != null && !fieldValue.isEmpty()) {
+							title = fieldValue;
+						}
+					} else if (fieldName.equals("writer")) {
+						if (fieldValue != null && !fieldValue.isEmpty()) {
+							writer = fieldValue;
+						}
+					} else if (fieldName.equals("content")) {
+						if (fieldValue != null && !fieldValue.isEmpty()) {
+							content = fieldValue;
+						}
+					}
 				}
-			} else if (fieldName.equals("writer")) {
-				if (fieldValue == null || fieldValue.isEmpty()) {
-					writer = "Unknown";
-				} else {
-					writer = fieldValue;
-				}
-			} else if (fieldName.equals("content")) {
-				if (fieldValue == null || fieldValue.isEmpty()) {
-					content = "Untitled";
-				} else {
-					content = fieldValue;
-				}
-			}
-		}
 			}
 
 			pstmt.setString(1, title);
