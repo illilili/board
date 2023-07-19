@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.sql.DriverManager"%>
@@ -25,7 +24,7 @@
     </style>
 </head>
 <body>
-    <h1>게시글 수정 처리</h1>
+  
     <%
     request.setCharacterEncoding("UTF-8");
     %>
@@ -56,19 +55,8 @@
         pstmt.setString(3, content);
         pstmt.setInt(4, bno);
         pstmt.executeUpdate();
-
-        %>
-        <div class="message">
-            게시글이 성공적으로 수정되었습니다.
-        </div>
-        <%
     } catch (Exception e) {
         e.printStackTrace();
-        %>
-        <div class="message">
-            게시글 수정에 실패했습니다.
-        </div>
-        <%
     } finally {
         try {
             if (pstmt != null)
@@ -81,8 +69,12 @@
     }
     %>
 
-    <form method="post" action="index.jsp">
-        <input type="submit" value="돌아가기">
-    </form>
+    
+    <script>
+        // INDEX 페이지로 바로 이동
+        setTimeout(function() {
+            window.location.href = 'index.jsp';
+        }, 1000); // 1초 후에 이동 (원하는 시간으로 변경 가능)
+    </script>
 </body>
 </html>
