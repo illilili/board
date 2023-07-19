@@ -104,7 +104,7 @@ tr:hover {
             String fileName = rs.getString("file_name");
             String filePath = rs.getString("file_path");
             
-            //로그인 시 버튼 표시
+            //로그인 시 버튼 표시 
             boolean showEditButtons = isUserLoggedIn;
     %>
     <table>
