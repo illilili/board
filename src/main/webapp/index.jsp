@@ -166,9 +166,24 @@ th {
 
 	<div class="write-btn">
 		<form method="post" action="write.jsp">
-			<input type="submit" value="글 작성">
+			<input type="button" value="글 작성" onclick = "checkLogin()">
 		</form>
 	</div>
 	
 </body>
+
+<script type="text/javascript">
+	
+function checkLogin() {	
+	
+	var id = '<%=sessionId%>';
+	
+    if (id=="null") {
+    	   alert("로그인 후 글쓰기가 가능합니다.");
+    	   return false;
+   	 } else {
+    	   location.href = "write.jsp";
+   	}
+}
+</script>
 </html>
