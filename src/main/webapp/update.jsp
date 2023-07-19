@@ -69,7 +69,7 @@
     }
     %>
 
-     
+    
     <script>
         // INDEX 페이지로 바로 이동
         setTimeout(function() {
