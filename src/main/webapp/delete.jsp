@@ -75,10 +75,10 @@
             <p>작성자: <%= writer %></p>
             <p>내용: <%= content %></p>
 
-            <form method="post" action="deleteAction.jsp">
+            <form method="post" action="deleteAction.jsp" onsubmit="return confirmDeletion();">
                 <input type="hidden" name="bno" value="<%= bno %>">
                 <button type="submit" name="confirm" value="yes">예</button>
-                <button type="submit" name="confirm" value="no">아니오</button>
+                <button type="button" onclick="goToDetail(<%= bno %>);">아니오</button>
             </form>
     <%
         } else {
@@ -98,5 +98,15 @@
         }
     }
     %>
+
+    <script>
+        function confirmDeletion() {
+            return confirm("정말 삭제하시겠습니까? 되돌릴 수 없습니다.");
+        }
+
+        function goToDetail(bno) {
+            window.location.href = "detail.jsp?bno=" + bno;
+        }
+    </script>
 </body>
 </html>

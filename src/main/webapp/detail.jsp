@@ -10,7 +10,7 @@
 body {
     font-family: Arial, sans-serif;
 }
-
+ 
 h1 {
     text-align: center;
 }

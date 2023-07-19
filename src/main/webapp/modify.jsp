@@ -87,7 +87,7 @@
             int viewCnt = rs.getInt("viewCnt");
             String content = rs.getString("content");
     %>
-    <form method="post" action="update.jsp">
+    <form method="post" action="update.jsp" onsubmit="return confirmModification();">
         <div style="text-align: center;">
             <input type="hidden" name="bno" value="<%=bno%>">
             <label for="title">제목:</label>
@@ -99,7 +99,7 @@
             <label for="content">내용:</label>
             <textarea id="content" name="content" rows="5" cols="50"><%=content%></textarea>
             <br>
-            <input type="submit" value="수정">
+            <input type="submit" value="수정하기">
         </div>
     </form>
     <%
@@ -123,5 +123,11 @@
     <form method="post" action="index.jsp">
         <input type="submit" value="돌아가기">
     </form>
+
+    <script>
+        function confirmModification() {
+            return confirm("정말 수정하시겠습니까?");
+        }
+    </script>
 </body>
 </html>
