@@ -4,6 +4,7 @@
 <%@ page import="java.sql.DriverManager"%>
 
 <%
+//수정좀되보거라~
 // 폴더 경로
 String folderPath = "C:/eGovFrameDev-4.1.0-64bit/workspace/ipp/upload/";
 
