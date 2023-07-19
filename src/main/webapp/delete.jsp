@@ -69,7 +69,7 @@
             String title = rs.getString("title");
             String writer = rs.getString("writer");
             String content = rs.getString("content");
-    %>
+    %> 
             <h2>게시글 삭제 확인</h2>
             <p>게시글 제목: <%= title %></p>
             <p>작성자: <%= writer %></p>

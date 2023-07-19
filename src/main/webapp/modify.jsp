@@ -22,7 +22,7 @@
             align-items: center;
             margin-top: 20px;
         }
-
+ 
         label {
             margin-bottom: 10px;
         }
