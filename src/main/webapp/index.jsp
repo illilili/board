@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8" 
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.sql.*"%>
@@ -99,7 +99,7 @@ th {
 </style>
 </head>
 <body>
-	<h1>게시판</h1>
+	<h1><a href="index.jsp">게시판</a></h1>
 	<table>
 		<tr>
 			<th>번호</th>
@@ -109,6 +109,8 @@ th {
 			<th>조회수</th>
 		</tr>
 		<%
+		String keyword = request.getParameter("keyword");
+
 		String dbDriver = "com.mysql.jdbc.Driver";
 		String jdbcUrl = "jdbc:mysql://192.168.50.52:3306/board";
 		String jdbcUsername = "NULL";
@@ -122,8 +124,14 @@ th {
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(jdbcUrl, jdbcUsername, jdbcPassword);
 
-			String sql = "SELECT bno, title, writer, regDate, viewCnt FROM board";
-			pstmt = conn.prepareStatement(sql);
+			if(keyword==null){
+				String sql = "SELECT bno, title, writer, regDate, viewCnt FROM board";
+				pstmt = conn.prepareStatement(sql);
+			}else{
+				String sql = "SELECT bno, title, writer, regDate, viewCnt FROM board WHERE title LIKE ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, "%" + keyword + "%");
+			}
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -159,7 +167,7 @@ th {
 		%>
 	</table>
 
-	<form class="search-form" method="get" action="search.jsp">
+	<form class="search-form" method="get" action="index.jsp">
 		<label for="keyword">검색어:</label> <input type="text" id="keyword"
 			name="keyword"> <input type="submit" value="검색">
 	</form>
