@@ -6,8 +6,7 @@
 <%@ page import="org.apache.commons.fileupload.disk.*"%>
 <%@ page import="org.apache.commons.fileupload.servlet.*"%>
 <%@ page import="org.apache.commons.io.output.*"%>
-<%@ page
-	import="java.sql.*, javax.servlet.*, javax.servlet.http.*, javax.servlet.annotation.MultipartConfig"%>
+<%@ page import="java.sql.*, javax.servlet.*, javax.servlet.http.*, javax.servlet.annotation.MultipartConfig"%>
 <%@ page import="java.io.File"%>
 <%@ page import="java.sql.DriverManager"%>
 
@@ -38,6 +37,13 @@ body {
 </style>
 </head>
 <body>
+	<%!
+	// 서버 측에 로그인 상태를 확인하기 위한 메서드
+    private boolean isUserLoggedIn(HttpSession session) {
+        // 로그인한 사용자의 정보가 세션에 저장되어 있는지 확인
+        return session.getAttribute("sessionId") != null;
+    }
+	%>
 	<%
 	request.setCharacterEncoding("UTF-8");
 
@@ -75,10 +81,11 @@ body {
 		try {
 			// Parse the request to get file items.
 			List<FileItem> fileItems = upload.parseRequest(request);
-
+			
 			// Process the uploaded file items
 			String fileName = "";
 			String filePath = "";
+			String writer = null;
 
 			// Check if file item is not empty and process file upload
 			for (FileItem fileItem : fileItems) {
@@ -98,12 +105,30 @@ body {
 			// Save the file information to the database
 			Class.forName(dbDriver);
 			conn = DriverManager.getConnection(jdbcUrl, jdbcUsername, jdbcPassword);
-
+			
+			
+	        if (isUserLoggedIn(session)) {
+	            String sessionId = (String) session.getAttribute("sessionId");
+	            String memberName = null;
+	            // 데이터베이스에서 member 테이블을 조회하여 회원의 이름 가져오기
+	            String sqlMember = "SELECT name FROM member WHERE id = ?";
+	            PreparedStatement pstmtMember = conn.prepareStatement(sqlMember);
+	            pstmtMember.setString(1, sessionId);
+	            ResultSet rsMember = pstmtMember.executeQuery();
+	            if (rsMember.next()) {
+	                memberName = rsMember.getString("name");
+	            }
+	            if (memberName != null) {
+	                writer = memberName;
+	            }
+	            rsMember.close();
+	            pstmtMember.close();
+	        }
+	        
 			String sql = "INSERT INTO board (title, writer, content, file_name, file_path) VALUES (?, ?, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 
 			String title = "";
-			String writer = "";
 			String content = "";
 
 			for (FileItem fileItem : fileItems) {
@@ -113,10 +138,6 @@ body {
 					if (fieldName.equals("title")) {
 						if (fieldValue != null && !fieldValue.isEmpty()) {
 							title = fieldValue;
-						}
-					} else if (fieldName.equals("writer")) {
-						if (fieldValue != null && !fieldValue.isEmpty()) {
-							writer = fieldValue;
 						}
 					} else if (fieldName.equals("content")) {
 						if (fieldValue != null && !fieldValue.isEmpty()) {
