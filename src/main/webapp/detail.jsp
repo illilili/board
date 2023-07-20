@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.sql.*, java.io.*"%>
 <%@ page import="javax.servlet.http.HttpSession" %>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 <html>
 <head>
 <title>게시글 상세 내용</title>
@@ -107,7 +108,7 @@ tr:hover {
             //로그인 시 버튼 표시
             boolean showEditButtons = isUserLoggedIn;
     %>
-    <table>
+    <table class="table table-bordered">
     	<tr>
     		<th>제목 </th>
         	<td><%= title %></td>
@@ -143,16 +144,17 @@ tr:hover {
         <% if (showEditButtons) { %>
             <form method="post" action="delete.jsp">
                 <input type="hidden" name="bno" value="<%=bno%>">
-                <input type="submit" value="삭제">
+                <button type="submit" value="삭제" class="btn btn-danger">삭제</button>
             </form>
             <form method="post" action="modify.jsp">
                 <input type="hidden" name="bno" value="<%=bno%>">
-                <input type="submit" value="수정">
+                <input type="submit" value="수정" class="btn btn-secondary" >
             </form>
         <% } %>
         <!-- 목록 버튼 -->
         <form method="post" action="index.jsp">
-            <input type="submit" value="목록">
+            <button type="submit" value="목록" class="btn btn-primary">목록</button>
+            
         </form>
     </div>
 
@@ -174,5 +176,7 @@ tr:hover {
     }
     }
     %>
+     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
 </body>
 </html>
