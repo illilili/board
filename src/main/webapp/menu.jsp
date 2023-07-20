@@ -10,7 +10,9 @@
 		<div>
 		<div class="navbar-nav mr-auto">
 			<c:choose>
+			
 				<c:when test="${empty sessionId }"> <%-- ${sessionId==null} --%>
+					<li><a class="nav-link" href="index.jsp"> 홈</a> </li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='login.jsp'/>">로그인</a></li>
 					<li class="nav-item"><a class="nav-link" href="<c:url value='addMember.jsp'/>">회원가입</a></li>
 				</c:when>

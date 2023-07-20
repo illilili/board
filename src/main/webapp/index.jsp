@@ -138,7 +138,7 @@ th {
 				int bno = rs.getInt("bno");
 				String title = rs.getString("title");
 				String writer = rs.getString("writer");
-				String regDate = rs.getString("regDate");
+				Date regDate = rs.getDate("regDate");
 				int viewCnt = rs.getInt("viewCnt");
 		%>
 		<tr>
