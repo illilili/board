@@ -98,13 +98,13 @@ tr:hover {
         if (rs.next()) {
             String title = rs.getString("title");
             String writer = rs.getString("writer");
-            String regDate = rs.getString("regDate");
+            Date regDate = rs.getDate("regDate");
             int viewCnt = rs.getInt("viewCnt");
             String content = rs.getString("content");
             String fileName = rs.getString("file_name");
             String filePath = rs.getString("file_path");
             
-            //로그인 시 버튼 표시
+            //로그인 시 버튼 표시 
             boolean showEditButtons = isUserLoggedIn;
     %>
     <table>
